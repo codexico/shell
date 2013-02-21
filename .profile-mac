@@ -1,7 +1,10 @@
+#create dir and cd into
 mkcd() { mkdir -p "$@" && cd "$_"; }
 
+#create dirs, git clone, open finder and sublime
+#Ex: pivotinit Agencia/Cliente/NomeDoProjeto
 pivotinit() {
- mkcd -p ~/Projetos/"$1";
+mkcd -p ~/Projetos/"$1";
 mkdir material;
 mkdir w;
 mkcd src;
@@ -15,30 +18,26 @@ open "http://localhost/$1";
 
 
 
-
+#include local bin into PATH
 export PATH=$PATH:~/bin
 
+#see the current branch in your prompt
 #https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh
 source ~/.git-prompt.sh
 
 
+# Set git autocompletion and PS1 integration
 #curl -OL https://github.com/git/git/raw/master/contrib/completion/git-completion.bash
 #if [ -f ~/opt/git-completion.bash ]; then
 #  source ~/opt/git-completion.bash
 #fi
-
-# Set git autocompletion and PS1 integration
 if [ -f /usr/local/git/contrib/completion/git-completion.bash ]; then
   . /usr/local/git/contrib/completion/git-completion.bash
 fi
 
-
 GIT_PS1_SHOWDIRTYSTATE=true
 
-
 #PS1='\[\033[32m\]\u@\h\[\033[00m\]:\[\033[34m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]\$ '
-
-
 PS1='[\! \[\033[32m\]\D{%F %T}\[\033[34m\] \W\[\033[0;31m\]$(__git_ps1)\[\033[0m\]] \$ '
 
 #export GIT_PS1_SHOWDIRTYSTATE=true;
@@ -46,5 +45,17 @@ export GIT_PS1_SHOWSTASHSTATE=true;
 export GIT_PS1_SHOWTRACKEDFILES=true;
 export GIT_PS1_SHOWUPSTREAM=auto;
 
+#giant history
 export HISTSIZE=100000
+#the history list is appended to the history file when the shell exits,
+#rather than overwriting the history file.
 shopt -s histappend
+#minor errors in the spelling of a directory component in a cd 
+#command will be corrected
+shopt -s cdspell
+#attempts to save all lines of a multiple-line command in the same history entry
+shopt -s cmdhist
+#case-insensitive fashion when performing filename expansion
+shopt -s nocaseglob
+#tab-completion case insensitive
+bind 'echo set completion-ignore-case on'
